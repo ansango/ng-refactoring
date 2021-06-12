@@ -31,7 +31,7 @@
             "scripts": [
               "./node_modules/jquery/dist/jquery.min.js",
               "./node_modules/bootstrap/dist/js/bootstrap.js",
-              "./node_modules/jquery/dist/jquery.js"              
+              "./node_modules/jquery/dist/jquery.js"
             ]
           },
           "configurations": {
@@ -125,6 +125,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "tourist-activities-app"
+    }
+  },
+  "defaultProject": "tourist-activities-app",
+  "cli": {
+    "analytics": "8522e148-70c2-4a0b-bc66-5dd3f8e66f60"
+  }
 }

@@ -1,9 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { ValidatorFn, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import {
+  ValidatorFn,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { languageLevels } from 'src/app/Shared/Enums/publicEnums';
 import { activityLenguages } from 'src/app/Shared/Enums/publicEnums';
-import { Language } from '../../Models/language';
+import { Language } from '../../models/language';
 import { CheckValidator } from 'src/app/Shared/Directives/checkValidator';
 import { PublicFunctions } from 'src/app/Shared/Directives/publicFunctions';
 
@@ -15,7 +21,7 @@ import * as UserAction from '../../actions';
 @Component({
   selector: 'app-profile-language',
   templateUrl: './profile-language.component.html',
-  styleUrls: ['./profile-language.component.css']
+  styleUrls: ['./profile-language.component.css'],
 })
 export class ProfileLanguageComponent implements OnInit {
   userState$: UserState;
@@ -24,13 +30,20 @@ export class ProfileLanguageComponent implements OnInit {
   rForm: FormGroup;
   language: Language = {} as Language;
 
-  constructor(private route: ActivatedRoute, public router: Router,
-              private store: Store<AppState>) {
+  constructor(
+    private route: ActivatedRoute,
+    public router: Router,
+    private store: Store<AppState>
+  ) {
     // Se recoge el identificador del lenguage pasado por el navegador (si se edita)
-    this.route.params.subscribe(params => {
+    this.route.params.subscribe((params) => {
       const uid = +params.uid;
-      this.store.select('user').subscribe(userState => this.userState$ = userState);
-      this.language = this.userState$.user.languages.find(language => language.uid === uid);
+      this.store
+        .select('user')
+        .subscribe((userState) => (this.userState$ = userState));
+      this.language = this.userState$.user.languages.find(
+        (language) => language.uid === uid
+      );
       // Se carga la información del lenguage
       this.loadFormInstance();
     });
@@ -40,18 +53,19 @@ export class ProfileLanguageComponent implements OnInit {
 
   public loadFormInstance(): void {
     // En caso de creación de un nuevo lenguaje
-    if (this.language === undefined)
-    {
+    if (this.language === undefined) {
       // Se incicializa la colección
       this.language = new Language();
       this.language.finish = '';
-      this.language.level  = null;
+      this.language.level = null;
       this.language.language = null;
     }
     this.rForm = new FormGroup({
-      date: new FormControl(this.language.finish, [CheckValidator.checkFormatDate]),
+      date: new FormControl(this.language.finish, [
+        CheckValidator.checkFormatDate,
+      ]),
       level: new FormControl(this.language.level, [Validators.required]),
-      language: new FormControl(this.language.language, [Validators.required])
+      language: new FormControl(this.language.language, [Validators.required]),
     });
   }
 
@@ -64,34 +78,40 @@ export class ProfileLanguageComponent implements OnInit {
   }
 
   // En caso de creación de un nuevo lenguaje
-  public save (language: Language){
-    if (!this.userState$.user.languages.find(x => x.language === language.language))
-    {
+  public save(language: Language) {
+    if (
+      !this.userState$.user.languages.find(
+        (x) => x.language === language.language
+      )
+    ) {
       const user = this.userState$.user;
-      const _language = PublicFunctions.fakeIncreaseUid <Language>(user.languages, language);
+      const _language = PublicFunctions.fakeIncreaseUid<Language>(
+        user.languages,
+        language
+      );
       user.languages.push(_language);
       // Se actualiza el usuario
-      this.store.dispatch(UserAction.addUserLanguage({user}));
-    }
-    else
-    {
+      this.store.dispatch(UserAction.addUserLanguage({ user }));
+    } else {
       alert('The language already exists!');
     }
   }
 
   // Se actualiza el lenguaje
-  public update (language: Language){
+  public update(language: Language) {
     const user = this.userState$.user;
     const languages = user.languages;
-    const foundIndex = languages.findIndex(_language => _language.uid === language.uid);
+    const foundIndex = languages.findIndex(
+      (_language) => _language.uid === language.uid
+    );
     languages[foundIndex] = language;
     // Se actualiza el usuario
-    this.store.dispatch(UserAction.updateUserLanguage({user}));
+    this.store.dispatch(UserAction.updateUserLanguage({ user }));
   }
 
-  saveOrUpdate(language: Language){
+  saveOrUpdate(language: Language) {
     // Se invoca la función save o update en función de la respuesta de isNew
-    this.isNew() ? this.save (language) : this.update(language);
+    this.isNew() ? this.save(language) : this.update(language);
   }
 
   public isNew(): boolean {

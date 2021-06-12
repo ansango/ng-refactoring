@@ -3,12 +3,10 @@ import { Observable, of } from 'rxjs';
 import { Actions, Effect, ofType, createEffect } from '@ngrx/effects';
 import { map, tap, catchError, mergeMap, exhaustMap } from 'rxjs/operators';
 import * as ActivitiesActions from '../actions';
-import { ActivityService } from '../Services/activity.service';
-
+import { ActivityService } from '../services/activity.service';
 
 @Injectable()
 export class ActivitiesEffects {
-
   GetAllActivities$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActivitiesActions.getAllActivities),
@@ -17,7 +15,9 @@ export class ActivitiesEffects {
           map((activities) =>
             ActivitiesActions.getAllActivitiesSuccess({ activities })
           ),
-          catchError((error) => of(ActivitiesActions.getAllActivitiesFailure({ payload: error })))
+          catchError((error) =>
+            of(ActivitiesActions.getAllActivitiesFailure({ payload: error }))
+          )
         )
       )
     )
@@ -26,12 +26,14 @@ export class ActivitiesEffects {
   GetUserActivities$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActivitiesActions.getUserActivities),
-      mergeMap(({idUser}) =>
+      mergeMap(({ idUser }) =>
         this.activityService.getActivities().pipe(
           map((activities) =>
-            ActivitiesActions.getUserActivitiesSuccess({activities, idUser})
+            ActivitiesActions.getUserActivitiesSuccess({ activities, idUser })
           ),
-          catchError((error) => of(ActivitiesActions.getUserActivitiesFailure({ payload: error })))
+          catchError((error) =>
+            of(ActivitiesActions.getUserActivitiesFailure({ payload: error }))
+          )
         )
       )
     )
@@ -40,12 +42,12 @@ export class ActivitiesEffects {
   updateActivity$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActivitiesActions.updateActivity),
-      mergeMap(({activity}) =>
+      mergeMap(({ activity }) =>
         this.activityService.updateActivity(activity).pipe(
-          map(() =>
-            ActivitiesActions.updateActivitySuccess({ activity })
-          ),
-          catchError((error) => of(ActivitiesActions.updateActivityFailure({ payload: error })))
+          map(() => ActivitiesActions.updateActivitySuccess({ activity })),
+          catchError((error) =>
+            of(ActivitiesActions.updateActivityFailure({ payload: error }))
+          )
         )
       )
     )
@@ -54,12 +56,12 @@ export class ActivitiesEffects {
   signUpActivity$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActivitiesActions.signUpActivity),
-      mergeMap(({activity}) =>
+      mergeMap(({ activity }) =>
         this.activityService.updateActivity(activity).pipe(
-          map(() =>
-            ActivitiesActions.signUpActivitySuccess({ activity })
-          ),
-          catchError((error) => of(ActivitiesActions.signUpActivityFailure({ payload: error })))
+          map(() => ActivitiesActions.signUpActivitySuccess({ activity })),
+          catchError((error) =>
+            of(ActivitiesActions.signUpActivityFailure({ payload: error }))
+          )
         )
       )
     )
@@ -68,12 +70,12 @@ export class ActivitiesEffects {
   unregisterActivity$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActivitiesActions.unregisterActivity),
-      mergeMap(({activity}) =>
+      mergeMap(({ activity }) =>
         this.activityService.updateActivity(activity).pipe(
-          map(() =>
-            ActivitiesActions.unregisterActivitySuccess({ activity })
-          ),
-          catchError((error) => of(ActivitiesActions.unregisterActivityFailure({ payload: error })))
+          map(() => ActivitiesActions.unregisterActivitySuccess({ activity })),
+          catchError((error) =>
+            of(ActivitiesActions.unregisterActivityFailure({ payload: error }))
+          )
         )
       )
     )
@@ -82,12 +84,12 @@ export class ActivitiesEffects {
   createActivity$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActivitiesActions.createActivity),
-      mergeMap(({activity}) =>
+      mergeMap(({ activity }) =>
         this.activityService.addActivity(activity).pipe(
-          map(() =>
-            ActivitiesActions.createActivitySuccess({ activity })
-          ),
-          catchError((error) => of(ActivitiesActions.createActivityFailure({ payload: error })))
+          map(() => ActivitiesActions.createActivitySuccess({ activity })),
+          catchError((error) =>
+            of(ActivitiesActions.createActivityFailure({ payload: error }))
+          )
         )
       )
     )
@@ -96,27 +98,35 @@ export class ActivitiesEffects {
   deleteActivity$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActivitiesActions.deleteActivity),
-      mergeMap(({activity}) =>
+      mergeMap(({ activity }) =>
         this.activityService.deleteActivity(activity.id).pipe(
-          map(() =>
-            ActivitiesActions.deleteActivitySuccess({ activity })
-          ),
-          catchError((error) => of(ActivitiesActions.deleteActivityFailure({ payload: error })))
+          map(() => ActivitiesActions.deleteActivitySuccess({ activity })),
+          catchError((error) =>
+            of(ActivitiesActions.deleteActivityFailure({ payload: error }))
+          )
         )
       )
     )
   );
 
-
   GetFavoriteUserActivities$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActivitiesActions.getFavoriteUserActivities),
-      mergeMap(({idFavoriteUserActivities}) =>
+      mergeMap(({ idFavoriteUserActivities }) =>
         this.activityService.getActivities().pipe(
           map((activities) =>
-            ActivitiesActions.getFavoriteUserActivitiesSuccess({activities, idFavoriteUserActivities})
+            ActivitiesActions.getFavoriteUserActivitiesSuccess({
+              activities,
+              idFavoriteUserActivities,
+            })
           ),
-          catchError((error) => of(ActivitiesActions.getFavoriteUserActivitiesFailure({ payload: error })))
+          catchError((error) =>
+            of(
+              ActivitiesActions.getFavoriteUserActivitiesFailure({
+                payload: error,
+              })
+            )
+          )
         )
       )
     )
@@ -125,12 +135,14 @@ export class ActivitiesEffects {
   GetActivitiesAdmin$ = createEffect(() =>
     this.actions$.pipe(
       ofType(ActivitiesActions.getActivitiesAdmin),
-      mergeMap(({idUser}) =>
+      mergeMap(({ idUser }) =>
         this.activityService.getActivities().pipe(
           map((activities) =>
-            ActivitiesActions.getActivitiesAdminSuccess({activities, idUser})
+            ActivitiesActions.getActivitiesAdminSuccess({ activities, idUser })
           ),
-          catchError((error) => of(ActivitiesActions.getActivitiesAdminFailure({ payload: error })))
+          catchError((error) =>
+            of(ActivitiesActions.getActivitiesAdminFailure({ payload: error }))
+          )
         )
       )
     )

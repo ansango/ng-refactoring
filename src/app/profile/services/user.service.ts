@@ -1,32 +1,31 @@
 import { Injectable, Input } from '@angular/core';
-import { User } from '../Models/user';
-import { Credentials } from '../../Login/Models/credentials';
+import { User } from '../models/user';
+import { Credentials } from '../../login/models/credentials';
 import { throwError, Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, exhaustMap } from 'rxjs/operators';
 
-
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
-  private usersUrl = 'api/users';  // URL to web api
+  private usersUrl = 'api/users'; // URL to web api
 
   constructor(private http: HttpClient) {}
 
   httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
   };
 
   login({ email, password }: Credentials): Observable<any> {
     return this.http.get<User[]>(this.usersUrl).pipe(
       map((users) => {
-        const user = users.find(x => x.profile.email === email && x.profile.password === password);
-        if (user !== undefined){
+        const user = users.find(
+          (x) => x.profile.email === email && x.profile.password === password
+        );
+        if (user !== undefined) {
           return user;
-        }
-        else
-        {
+        } else {
           throw throwError('Invalid username or password');
         }
       })
@@ -39,9 +38,10 @@ export class UserService {
    */
   getUserFavoriteActivities(idUser: number): Observable<number[]> {
     let idActivitiesUserFavorites: number[];
-    idActivitiesUserFavorites = JSON.parse(localStorage.getItem('lStorageFavorites' + idUser));
-    if (idActivitiesUserFavorites === null)
-    {
+    idActivitiesUserFavorites = JSON.parse(
+      localStorage.getItem('lStorageFavorites' + idUser)
+    );
+    if (idActivitiesUserFavorites === null) {
       idActivitiesUserFavorites = new Array<number>();
     }
     return of(idActivitiesUserFavorites);
@@ -51,12 +51,17 @@ export class UserService {
    * Función que actualiza los identificadores de las actividades favoritas del usuario logado.
    * @param idActivitiesUserFavorites - array con los id de las actividades favoritas del usuario
    */
-  setUserFavoriteActivities(idActivitiesUserFavorites: number[], idUser: number): Observable<boolean> {
+  setUserFavoriteActivities(
+    idActivitiesUserFavorites: number[],
+    idUser: number
+  ): Observable<boolean> {
     try {
-      localStorage.setItem('lStorageFavorites' + idUser, JSON.stringify(idActivitiesUserFavorites));
+      localStorage.setItem(
+        'lStorageFavorites' + idUser,
+        JSON.stringify(idActivitiesUserFavorites)
+      );
       return of(true);
-    }
-    catch (e) {
+    } catch (e) {
       throw throwError(e);
     }
   }
@@ -66,9 +71,9 @@ export class UserService {
    * @return los usuarios del sistema
    */
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(this.usersUrl).pipe(
-      catchError(this.handleError<User[]>('getUsers'))
-    );
+    return this.http
+      .get<User[]>(this.usersUrl)
+      .pipe(catchError(this.handleError<User[]>('getUsers')));
   }
 
   /**
@@ -78,9 +83,9 @@ export class UserService {
    */
   getUser(id: number): Observable<User> {
     const url = `${this.usersUrl}/${id}`;
-    return this.http.get<User>(url).pipe(
-      catchError(this.handleError<User>(`getUser id=${id}`))
-    );
+    return this.http
+      .get<User>(url)
+      .pipe(catchError(this.handleError<User>(`getUser id=${id}`)));
   }
 
   /**
@@ -89,9 +94,9 @@ export class UserService {
    * @return Observable<User>
    */
   updateUser(user: User): Observable<User> {
-    return this.http.put(this.usersUrl, user, this.httpOptions).pipe(
-      catchError(this.handleError<any>('updateUser'))
-    );
+    return this.http
+      .put(this.usersUrl, user, this.httpOptions)
+      .pipe(catchError(this.handleError<any>('updateUser')));
   }
 
   /**
@@ -102,12 +107,12 @@ export class UserService {
   userExist(user: User): Observable<boolean> {
     return this.http.get<User[]>(this.usersUrl).pipe(
       map((users) => {
-        if (users.find(x => x.profile.email === user.profile.email) === undefined)
-        {
+        if (
+          users.find((x) => x.profile.email === user.profile.email) ===
+          undefined
+        ) {
           return false;
-        }
-        else
-        {
+        } else {
           return true;
         }
       })
@@ -122,14 +127,13 @@ export class UserService {
   addUser(user: User): Observable<any> {
     return this.userExist(user).pipe(
       exhaustMap((exist) => {
-      if (exist){
-        throw throwError('That email is already assigned to another user.');
-      }
-      else {
-        return this.http.post<User>(this.usersUrl, user, this.httpOptions).pipe(
-          catchError(this.handleError<User>('addUser'))
-        );
-      }
+        if (exist) {
+          throw throwError('That email is already assigned to another user.');
+        } else {
+          return this.http
+            .post<User>(this.usersUrl, user, this.httpOptions)
+            .pipe(catchError(this.handleError<User>('addUser')));
+        }
       })
     );
   }
@@ -142,7 +146,6 @@ export class UserService {
    */
   private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-
       // TODO: send the error to remote logging infrastructure
       console.error(error); // log to console instead
 

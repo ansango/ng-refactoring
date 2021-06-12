@@ -56,11 +56,15 @@ Pero indican deficiencias en el diseño software que puede ralentizar el desarro
 
 - **Couplers**: acoplamiento excesivo entre clases.
 
-  - **Feature Envy**:
-  - **Inappropriate Intimacy**:
-  - **Message Chains**:
-  - **Middle Man**:
-  - **Incomplete Library Class**:
+  - **Feature Envy**: un método accede a los datos de otro objeto más que a sus propios datos.
+
+  - **Inappropriate Intimacy**: una clase utiliza los campos y métodos internos de otra clase.
+
+  - **Message Chains**: se da cuando un cliente solicita un objeto y este otro más y así sucesivamente. Un cambio en las relaciones hace que tengamos que modificar el cliente.
+
+  - **Middle Man**: se da cuando la única acción de una clase es delegar trabajo en otras clases.
+
+  - **Incomplete Library Class**: El autor de una librería no ha proporcionado las características que necesitamos.
 
 ## Ejemplos de Code Smells. Ficha
 

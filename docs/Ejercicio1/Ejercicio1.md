@@ -66,9 +66,11 @@ Pero indican deficiencias en el diseño software que puede ralentizar el desarro
 
   - **Incomplete Library Class**: El autor de una librería no ha proporcionado las características que necesitamos.
 
-## Ejemplos de Code Smells. Ficha
+## Ejemplos de Code Smells. Ficha Modelo:
 
 - Nombre code smell.
 - Escenario.
 - Técnica de refactoring para resolver el code smell.
 - Código antes y código después de aplicar refactoring
+
+### **Revisar en /code-smells**

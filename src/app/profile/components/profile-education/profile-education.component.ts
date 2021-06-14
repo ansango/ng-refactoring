@@ -11,8 +11,10 @@ import { CheckValidator } from 'src/app/Shared/Directives/checkValidator';
 import { PublicFunctions } from 'src/app/Shared/Directives/publicFunctions';
 import { Education } from '../../models/education';
 import { educationTypes } from 'src/app/Shared/Enums/publicEnums';
-import { universityLevelTypes } from 'src/app/Shared/Enums/publicEnums';
-import { cycleLevelTypes } from 'src/app/Shared/Enums/publicEnums';
+import {
+  universityLevelTypes,
+  cycleLevelTypes,
+} from 'src/app/Shared/Enums/publicEnums';
 
 import { AppState } from 'src/app/app.reducers';
 import { Store } from '@ngrx/store';

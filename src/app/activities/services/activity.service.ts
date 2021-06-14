@@ -3,24 +3,21 @@ import { Activity } from '../models/activity';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
+import { CommonService } from 'src/app/Shared/Services/common.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class ActivityService {
-
+export class ActivityService extends CommonService {
   constructor(private http: HttpClient) {
+    super();
     this.bRefreshMyActivities = new BehaviorSubject<boolean>(false);
     this.bRefreshFavorites = new BehaviorSubject<boolean>(false);
   }
 
-  private activitiesUrl = 'api/activities';  // URL to web api
+  private activitiesUrl = 'api/activities'; // URL to web api
   private bRefreshMyActivities: BehaviorSubject<boolean>;
   private bRefreshFavorites: BehaviorSubject<boolean>;
-
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
 
   // Observable para refrescar las actividades en las que está registrado el usuario
   // logado.
@@ -45,9 +42,9 @@ export class ActivityService {
    * @return la lista de actividades
    */
   getActivities(): Observable<Activity[]> {
-    return this.http.get<Activity[]>(this.activitiesUrl).pipe(
-      catchError(this.handleError<Activity[]>('getActivities'))
-    );
+    return this.http
+      .get<Activity[]>(this.activitiesUrl)
+      .pipe(catchError(this.handleError<Activity[]>('getActivities')));
   }
 
   /**
@@ -57,9 +54,9 @@ export class ActivityService {
    */
   getActivity(id: number): Observable<Activity> {
     const url = `${this.activitiesUrl}/${id}`;
-    return this.http.get<Activity>(url).pipe(
-      catchError(this.handleError<Activity>(`getActivity id=${id}`))
-    );
+    return this.http
+      .get<Activity>(url)
+      .pipe(catchError(this.handleError<Activity>(`getActivity id=${id}`)));
   }
 
   /**
@@ -68,9 +65,9 @@ export class ActivityService {
    * @return Observable<Activity>
    */
   updateActivity(activity: Activity): Observable<Activity> {
-    return this.http.put(this.activitiesUrl, activity, this.httpOptions).pipe(
-      catchError(this.handleError<any>('updateActivity'))
-    );
+    return this.http
+      .put(this.activitiesUrl, activity, this.httpOptions)
+      .pipe(catchError(this.handleError<any>('updateActivity')));
   }
 
   /**
@@ -79,9 +76,9 @@ export class ActivityService {
    * @return Observable<Activity>
    */
   addActivity(activity: Activity): Observable<Activity> {
-    return this.http.post<Activity>(this.activitiesUrl, activity, this.httpOptions).pipe(
-      catchError(this.handleError<Activity>('addUser'))
-    );
+    return this.http
+      .post<Activity>(this.activitiesUrl, activity, this.httpOptions)
+      .pipe(catchError(this.handleError<Activity>('addUser')));
   }
 
   /**
@@ -91,25 +88,8 @@ export class ActivityService {
    */
   deleteActivity(id: number): Observable<Activity> {
     const url = `${this.activitiesUrl}/${id}`;
-    return this.http.delete<Activity>(url, this.httpOptions).pipe(
-      catchError(this.handleError<any>('deleteActivity'))
-    );
-  }
-
-  /**
-   * Handle Http operation that failed.
-   * Let the app continue.
-   * @param operation - name of the operation that failed
-   * @param result - optional value to return as the observable result
-   */
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
+    return this.http
+      .delete<Activity>(url, this.httpOptions)
+      .pipe(catchError(this.handleError<any>('deleteActivity')));
   }
 }

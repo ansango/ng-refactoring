@@ -1,75 +1,40 @@
 /**
- * * CODE SMELL - Bloater - Long Method
-
-/**
- * ! PROBLEMA: Tenemos un bloque de código largo que puede resultar inmantenible
- * ! Por norma general un método debería hacer una sola cosas y no varias
+ * * BASE
  */
 
-/**
- * ? REFACTORING
- */
+class Student {
+  rollNumber: number;
+  name: string;
 
-/**
- * * ANTES
- */
-
-class Client {
-  firstName: string = '';
-  lastName: string = '';
-  amount: number = 0;
-
-  constructor(firstName: string, lastName: string, amount: number) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.amount = amount;
+  constructor(rollnumber: number, name: string) {
+    this.rollNumber = rollnumber;
+    this.name = name;
   }
 
-  getAmount(): number {
-    return this.amount;
-  }
-  printTicket(): void {
-    console.log(`${this.firstName} has an amount: ${this.amount}`);
-  }
-
-  printOwing(): void {
-    this.printTicket();
-
-    console.log(`First Name: ${this.firstName}`);
-    console.log(`Last Name: ${this.lastName}`);
-    console.log(`Amount ${this.getAmount()}`);
+  displayInformation(): void {
+    console.log(`Name: ${this.name}, Roll Number: ${this.rollNumber}`);
   }
 }
+
 /**
- * * DESPUÉS
+ * * DUPLICATE CODE
  */
 
-class NewClient {
-  firstName: string = '';
-  lastName: string = '';
-  amount: number = 0;
+class Student2 {
+  rollNumber: number;
+  name: string;
 
-  constructor(firstName: string, lastName: string, amount: number) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.amount = amount;
+  constructor(rollnumber: number, name: string) {
+    this.rollNumber = rollnumber;
+    this.name = name;
   }
 
-  getAmount(): number {
-    return this.amount;
-  }
-  printTicket(): void {
-    console.log(`${this.firstName} has an amount: ${this.amount}`);
+  displayInformation(): void {
+    console.log(`Name: ${this.name}, Roll Number: ${this.rollNumber}`);
   }
 
-  printOwing(): void {
-    this.printTicket();
-    this.printDetails(this.getAmount());
-  }
-
-  printDetails(amount: number): void {
-    console.log(`First Name: ${this.firstName}`);
-    console.log(`Last Name: ${this.lastName}`);
-    console.log(`Amount ${amount}`);
+  printNameRoll(): void {
+    console.log(`Name: ${this.name}, Roll Number: ${this.rollNumber}`);
   }
 }
+

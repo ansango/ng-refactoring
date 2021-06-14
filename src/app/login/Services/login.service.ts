@@ -4,7 +4,7 @@ import { User } from '../../profile/models/user';
 import { throwError, Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, exhaustMap } from 'rxjs/operators';
-
+/*
 @Injectable({
   providedIn: 'root'
 })
@@ -29,3 +29,4 @@ export class LoginService {
   }
 
 }
+*/

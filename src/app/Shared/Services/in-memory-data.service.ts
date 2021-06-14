@@ -138,6 +138,85 @@ export class InMemoryDataService implements InMemoryDbService {
           },
         ],
       },
+      {
+        id: 4,
+        profile: {
+          type: userTypes.Tourist,
+          name: 'Xavier',
+          surname: 'Diu Gómez',
+          email: 'a@a.com',
+          password: 'a',
+          birthDate: '30/05/1978',
+          phone: 666526555,
+          nationality: userNationalities.ES,
+          nif: '24222123H',
+          aboutMe: '',
+        },
+        languages: [
+          {
+            uid: 1,
+            level: languageLevels.B1,
+            language: activityLenguages.ES,
+            finish: '12/12/2020',
+          },
+          {
+            uid: 2,
+            level: languageLevels.C2,
+            language: activityLenguages.CA,
+            finish: '12/12/2020',
+          },
+        ],
+        educations: [
+          {
+            uid: 1,
+            type: educationTypes.cycle,
+            level: cycleLevelTypes.gradoSuperior,
+            name: 'Informática',
+            university: 'UOC',
+            finish: '12/12/2000',
+          },
+        ],
+      },
+      {
+        id: 5,
+        profile: {
+          type: userTypes.Company,
+          name: 'Manel',
+          companyName: 'Activities 2 S.A.',
+          surname: 'Giménez García',
+          email: 'b@b.com',
+          password: 'a',
+          birthDate: '30/05/1982',
+          phone: 664566555,
+          nationality: userNationalities.ES,
+          nif: '24222123H',
+          aboutMe: 'Me gusta hacer actividades',
+        },
+        languages: [
+          {
+            uid: 1,
+            level: languageLevels.B1,
+            language: activityLenguages.ES,
+            finish: '12/12/2020',
+          },
+          {
+            uid: 2,
+            level: languageLevels.C2,
+            language: activityLenguages.CA,
+            finish: '12/12/2020',
+          },
+        ],
+        educations: [
+          {
+            uid: 1,
+            type: educationTypes.cycle,
+            level: cycleLevelTypes.gradoSuperior,
+            name: 'Informática',
+            university: 'UOC',
+            finish: '12/12/2000',
+          },
+        ],
+      },
     ];
 
     const activities = [

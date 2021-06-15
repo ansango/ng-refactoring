@@ -26,6 +26,8 @@ export class ProfileComponent implements OnInit {
   eUserNationalities = userNationalities;
   public user: User;
 
+  public btnLanguage: string = 'language';
+  public btnEducation: string = 'education';
   public name: FormControl;
   public surname: FormControl;
   public nationality: FormControl;
@@ -141,41 +143,23 @@ export class ProfileComponent implements OnInit {
     this.store.dispatch(UserAction.updateUser({ user: this.user }));
   }
 
-  // Se recoge la pulsación sobre el botón de borrar idioma
-  onClickDeleteLanguage(languageId: any): void {
-    // Se solicita confirmación de eliminación
-    if (confirm('Are you sure to delete this language?')) {
-      const languages = this.user.languages;
-      const index = this.user.languages.findIndex(
-        (language) => language.uid === languageId
-      );
-      if (index === -1) {
-        alert('Error language not found');
-        return;
-      }
-      // Se elimina la lengua de la colección
-      languages.splice(index, 1);
-      // Se actualiza el usuario
-      this.store.dispatch(UserAction.deleteUserLanguage({ user: this.user }));
-    }
-  }
-
-  // Se recoge la pulsación sobre el botón de borrar educación
-  onClickDeleteEducation(educationId: any): void {
-    // Se solicita confirmación de eliminación
+  onDeleteButton({ button, id }: any) {
     if (confirm('Are you sure to delete this education?')) {
-      const educations = this.user.educations;
-      const index = this.user.educations.findIndex(
-        (education) => education.uid === educationId
-      );
+      const data =
+        button === 'language' ? this.user.languages : this.user.educations;
+      const index = data.findIndex((el) => el.uid === id);
       if (index === -1) {
-        alert('Error education not found');
+        alert(`Error ${button} not found`);
         return;
       }
-      // Se elimina la educación de la colección
-      educations.splice(index, 1);
-      // Se actualiza el usuario
-      this.store.dispatch(UserAction.deleteUserEducation({ user: this.user }));
+      data.splice(index, 1);
+      if (button === 'language') {
+        this.store.dispatch(UserAction.deleteUserLanguage({ user: this.user }));
+      } else {
+        this.store.dispatch(
+          UserAction.deleteUserEducation({ user: this.user })
+        );
+      }
     }
   }
 }

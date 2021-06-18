@@ -186,7 +186,7 @@ export class ActivityDetailComponent implements OnInit {
 
   // Se recoge la pulsación sobre el botón de delete
   onClickDelete(): void {
-    if (confirm('Are you sure to unsubcribe from this activity?')) {
+    if (confirm('Are you sure to unsubscribe from this activity?')) {
       const idLoggedUser = this.userState$.user?.id;
 
       const index = this.activity.signUpUsers.findIndex(

@@ -1,38 +1,4 @@
-import {
-  getLoginUser,
-  getLoginUserSuccess,
-  getLoginUserFailure,
-  formatUserSuccess,
-  createUser,
-  createUserSuccess,
-  createUserFailure,
-  updateUser,
-  updateUserSuccess,
-  updateUserFailure,
-  getFavoriteUserActivitiesStorageSuccess,
-  getFavoriteUserActivitiesStorageFailure,
-  setFavoriteUserActivitiesStorage,
-  setFavoriteUserActivitiesStorageSuccess,
-  setFavoriteUserActivitiesStorageFailure,
-  updateUserEducation,
-  updateUserEducationSuccess,
-  updateUserEducationFailure,
-  deleteUserEducation,
-  deleteUserEducationSuccess,
-  deleteUserEducationFailure,
-  addUserEducation,
-  addUserEducationSuccess,
-  addUserEducationFailure,
-  updateUserLanguage,
-  updateUserLanguageSuccess,
-  updateUserLanguageFailure,
-  deleteUserLanguage,
-  deleteUserLanguageSuccess,
-  deleteUserLanguageFailure,
-  addUserLanguage,
-  addUserLanguageSuccess,
-  addUserLanguageFailure,
-} from '../actions';
+import * as UserAction from '../actions';
 import { createReducer, on } from '@ngrx/store';
 import { User } from '../models/user';
 
@@ -50,18 +16,18 @@ export const initialState: UserState = {
 
 const _userReducer = createReducer(
   initialState,
-  on(getLoginUser, (state) => ({
+  on(UserAction.getLoginUser, (state) => ({
     ...state,
     error: null,
     pending: true,
   })),
-  on(getLoginUserSuccess, (state, action) => ({
+  on(UserAction.getLoginUserSuccess, (state, action) => ({
     ...state,
     user: action.user,
     error: null,
     pending: false,
   })),
-  on(getLoginUserFailure, (state, { payload }) => ({
+  on(UserAction.getLoginUserFailure, (state, { payload }) => ({
     ...state,
     error: {
       url: payload.url,
@@ -70,18 +36,18 @@ const _userReducer = createReducer(
     },
     pending: false,
   })),
-  on(updateUser, (state) => ({
+  on(UserAction.updateUser, (state) => ({
     ...state,
     error: null,
     pending: true,
   })),
-  on(updateUserSuccess, (state, action) => ({
+  on(UserAction.updateUserSuccess, (state, action) => ({
     ...state,
     user: action.user,
     error: null,
     pending: false,
   })),
-  on(updateUserFailure, (state, { payload }) => ({
+  on(UserAction.updateUserFailure, (state, { payload }) => ({
     ...state,
     error: {
       url: payload.url,
@@ -90,18 +56,18 @@ const _userReducer = createReducer(
     },
     pending: false,
   })),
-  on(createUser, (state) => ({
+  on(UserAction.createUser, (state) => ({
     ...state,
     error: null,
     pending: true,
   })),
-  on(createUserSuccess, (state, action) => ({
+  on(UserAction.createUserSuccess, (state, action) => ({
     ...state,
     user: action.user,
     error: false,
     pending: false,
   })),
-  on(createUserFailure, (state, { payload }) => ({
+  on(UserAction.createUserFailure, (state, { payload }) => ({
     ...state,
     error: {
       url: payload.url,
@@ -110,7 +76,7 @@ const _userReducer = createReducer(
     },
     pending: false,
   })),
-  on(getFavoriteUserActivitiesStorageSuccess, (state, action) => ({
+  on(UserAction.getFavoriteUserActivitiesStorageSuccess, (state, action) => ({
     ...state,
     user: {
       ...state.user,
@@ -122,21 +88,24 @@ const _userReducer = createReducer(
     error: false,
     pending: false,
   })),
-  on(getFavoriteUserActivitiesStorageFailure, (state, { payload }) => ({
-    ...state,
-    error: {
-      url: payload.url,
-      status: payload.status,
-      message: payload.message,
-    },
-    pending: false,
-  })),
-  on(setFavoriteUserActivitiesStorage, (state) => ({
+  on(
+    UserAction.getFavoriteUserActivitiesStorageFailure,
+    (state, { payload }) => ({
+      ...state,
+      error: {
+        url: payload.url,
+        status: payload.status,
+        message: payload.message,
+      },
+      pending: false,
+    })
+  ),
+  on(UserAction.setFavoriteUserActivitiesStorage, (state) => ({
     ...state,
     error: null,
     pending: true,
   })),
-  on(setFavoriteUserActivitiesStorageSuccess, (state, action) => ({
+  on(UserAction.setFavoriteUserActivitiesStorageSuccess, (state, action) => ({
     ...state,
     user: {
       ...state.user,
@@ -148,27 +117,30 @@ const _userReducer = createReducer(
     error: null,
     pending: false,
   })),
-  on(setFavoriteUserActivitiesStorageFailure, (state, { payload }) => ({
-    ...state,
-    error: {
-      url: payload.url,
-      status: payload.status,
-      message: payload.message,
-    },
-    pending: false,
-  })),
-  on(deleteUserLanguage, (state) => ({
+  on(
+    UserAction.setFavoriteUserActivitiesStorageFailure,
+    (state, { payload }) => ({
+      ...state,
+      error: {
+        url: payload.url,
+        status: payload.status,
+        message: payload.message,
+      },
+      pending: false,
+    })
+  ),
+  on(UserAction.deleteUserLanguage, (state) => ({
     ...state,
     error: null,
     pending: true,
   })),
-  on(deleteUserLanguageSuccess, (state, action) => ({
+  on(UserAction.deleteUserLanguageSuccess, (state, action) => ({
     ...state,
     user: action.user,
     error: null,
     pending: false,
   })),
-  on(deleteUserLanguageFailure, (state, { payload }) => ({
+  on(UserAction.deleteUserLanguageFailure, (state, { payload }) => ({
     ...state,
     error: {
       url: payload.url,
@@ -177,18 +149,18 @@ const _userReducer = createReducer(
     },
     pending: false,
   })),
-  on(deleteUserLanguage, (state) => ({
+  on(UserAction.deleteUserLanguage, (state) => ({
     ...state,
     error: null,
     pending: true,
   })),
-  on(deleteUserLanguageSuccess, (state, action) => ({
+  on(UserAction.deleteUserLanguageSuccess, (state, action) => ({
     ...state,
     user: action.user,
     error: null,
     pending: false,
   })),
-  on(deleteUserLanguageFailure, (state, { payload }) => ({
+  on(UserAction.deleteUserLanguageFailure, (state, { payload }) => ({
     ...state,
     error: {
       url: payload.url,
@@ -197,18 +169,18 @@ const _userReducer = createReducer(
     },
     pending: false,
   })),
-  on(updateUserLanguage, (state) => ({
+  on(UserAction.updateUserLanguage, (state) => ({
     ...state,
     error: null,
     pending: true,
   })),
-  on(updateUserLanguageSuccess, (state, action) => ({
+  on(UserAction.updateUserLanguageSuccess, (state, action) => ({
     ...state,
     user: action.user,
     error: null,
     pending: false,
   })),
-  on(updateUserLanguageFailure, (state, { payload }) => ({
+  on(UserAction.updateUserLanguageFailure, (state, { payload }) => ({
     ...state,
     error: {
       url: payload.url,
@@ -217,18 +189,18 @@ const _userReducer = createReducer(
     },
     pending: false,
   })),
-  on(addUserLanguage, (state) => ({
+  on(UserAction.addUserLanguage, (state) => ({
     ...state,
     error: null,
     pending: true,
   })),
-  on(addUserLanguageSuccess, (state, action) => ({
+  on(UserAction.addUserLanguageSuccess, (state, action) => ({
     ...state,
     user: action.user,
     error: null,
     pending: false,
   })),
-  on(addUserLanguageFailure, (state, { payload }) => ({
+  on(UserAction.addUserLanguageFailure, (state, { payload }) => ({
     ...state,
     error: {
       url: payload.url,
@@ -237,18 +209,18 @@ const _userReducer = createReducer(
     },
     pending: false,
   })),
-  on(addUserEducation, (state) => ({
+  on(UserAction.addUserEducation, (state) => ({
     ...state,
     error: null,
     pending: true,
   })),
-  on(addUserEducationSuccess, (state, action) => ({
+  on(UserAction.addUserEducationSuccess, (state, action) => ({
     ...state,
     user: action.user,
     error: null,
     pending: false,
   })),
-  on(addUserEducationFailure, (state, { payload }) => ({
+  on(UserAction.addUserEducationFailure, (state, { payload }) => ({
     ...state,
     error: {
       url: payload.url,
@@ -257,18 +229,18 @@ const _userReducer = createReducer(
     },
     pending: false,
   })),
-  on(updateUserEducation, (state) => ({
+  on(UserAction.updateUserEducation, (state) => ({
     ...state,
     error: null,
     pending: true,
   })),
-  on(updateUserEducationSuccess, (state, action) => ({
+  on(UserAction.updateUserEducationSuccess, (state, action) => ({
     ...state,
     user: action.user,
     error: null,
     pending: false,
   })),
-  on(updateUserEducationFailure, (state, { payload }) => ({
+  on(UserAction.updateUserEducationFailure, (state, { payload }) => ({
     ...state,
     error: {
       url: payload.url,
@@ -277,18 +249,18 @@ const _userReducer = createReducer(
     },
     pending: false,
   })),
-  on(deleteUserEducation, (state) => ({
+  on(UserAction.deleteUserEducation, (state) => ({
     ...state,
     error: null,
     pending: true,
   })),
-  on(deleteUserEducationSuccess, (state, action) => ({
+  on(UserAction.deleteUserEducationSuccess, (state, action) => ({
     ...state,
     user: action.user,
     error: null,
     pending: false,
   })),
-  on(deleteUserEducationFailure, (state, { payload }) => ({
+  on(UserAction.deleteUserEducationFailure, (state, { payload }) => ({
     ...state,
     error: {
       url: payload.url,
@@ -297,7 +269,7 @@ const _userReducer = createReducer(
     },
     pending: false,
   })),
-  on(formatUserSuccess, () => initialState)
+  on(UserAction.formatUserSuccess, () => initialState)
 );
 
 export function userReducer(state, action) {

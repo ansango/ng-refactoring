@@ -14,17 +14,12 @@ import { environment } from 'src/environments/environment';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { appReducers } from './app.reducers';
+import { appReducers, EffectsArray } from './app.reducers';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { FormsModule } from '@angular/forms';
-import { EffectsArray } from './app.reducers';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    HeaderComponent,
-    FooterComponent
-  ],
+  declarations: [AppComponent, HeaderComponent, FooterComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -32,26 +27,24 @@ import { EffectsArray } from './app.reducers';
     LoginModule,
     ActivitiesModule,
     ProfileModule,
-    StoreModule.forRoot( appReducers, {
+    StoreModule.forRoot(appReducers, {
       runtimeChecks: {
         strictStateImmutability: false,
         strictActionImmutability: false,
       },
     }),
     StoreDevtoolsModule.instrument({
-      maxAge: 25, // Retains last 25 states
-      logOnly: environment.production
+      maxAge: 25,
+      logOnly: environment.production,
     }),
-    StoreRouterConnectingModule.forRoot({stateKey: 'router'}),
+    StoreRouterConnectingModule.forRoot({ stateKey: 'router' }),
     EffectsModule.forRoot(EffectsArray),
     HttpClientModule,
-    // The HttpClientInMemoryWebApiModule module intercepts HTTP requests
-    // and returns simulated server responses.
-    HttpClientInMemoryWebApiModule.forRoot(
-      InMemoryDataService, { dataEncapsulation: false }
-    )
+    HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {
+      dataEncapsulation: false,
+    }),
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

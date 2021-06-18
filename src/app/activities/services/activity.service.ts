@@ -36,7 +36,6 @@ export class ActivityService extends CommonService {
   setRefreshFavoriteActivities(newValue: boolean): void {
     this.bRefreshFavorites.next(newValue);
   }
-
   /**
    * Función que devuelve la lista de actividades.
    * @return la lista de actividades
@@ -45,6 +44,8 @@ export class ActivityService extends CommonService {
     return this.http
       .get<Activity[]>(this.activitiesUrl)
       .pipe(catchError(this.handleError<Activity[]>('getActivities')));
+
+
   }
 
   /**

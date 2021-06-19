@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  ValidatorFn,
   FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
 import { User } from '../../models/user';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { userNationalities, userTypes } from 'src/app/Shared/Enums/publicEnums';
 import { CheckValidator } from 'src/app/Shared/Directives/checkValidator';
 
@@ -26,8 +25,8 @@ export class ProfileComponent implements OnInit {
   eUserNationalities = userNationalities;
   public user: User;
 
-  public btnLanguage: string = 'language';
-  public btnEducation: string = 'education';
+  public btnLanguage = 'language';
+  public btnEducation = 'education';
   public name: FormControl;
   public surname: FormControl;
   public nationality: FormControl;
@@ -58,7 +57,7 @@ export class ProfileComponent implements OnInit {
     this.loadUserProfile();
   }
 
-  private loadUserProfile() {
+  private loadUserProfile(): void {
     // Se carga el perfil del usuario
     this.name = new FormControl(this.user.profile.name, [
       Validators.required,
@@ -125,7 +124,7 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-  public updateProfile() {
+  public updateProfile(): void {
     this.user.profile.name = this.name.value.trim();
     this.user.profile.surname = this.surname.value.trim();
     this.user.profile.nationality = this.nationality.value;
@@ -143,11 +142,11 @@ export class ProfileComponent implements OnInit {
     this.store.dispatch(UserAction.updateUser({ user: this.user }));
   }
 
-  onDeleteButton({ button, id }: any) {
+  onDeleteButton({ button, id }: any): void {
     if (confirm('Are you sure to delete this education?')) {
       const data =
         button === 'language' ? this.user.languages : this.user.educations;
-      const index = data.findIndex((el) => el.uid === id);
+      const index = data.findIndex((el: any) => el.uid === id);
       if (index === -1) {
         alert(`Error ${button} not found`);
         return;

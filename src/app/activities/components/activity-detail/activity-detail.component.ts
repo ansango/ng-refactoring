@@ -7,16 +7,13 @@ import {
   OnChanges,
 } from '@angular/core';
 import { Activity } from '../../models/activity';
-import { userTypes } from 'src/app/Shared/Enums/publicEnums';
-import { Router } from '@angular/router';
 import {
-  ValidatorFn,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
-import { activityStates, FilterType } from 'src/app/Shared/Enums/publicEnums';
+  userTypes,
+  activityStates,
+  FilterType,
+} from 'src/app/Shared/Enums/publicEnums';
+import { Router } from '@angular/router';
+import { FormControl, FormGroup } from '@angular/forms';
 import { AppState } from 'src/app/app.reducers';
 import { Store } from '@ngrx/store';
 import { UserState } from '../../../profile/reducers';
@@ -73,46 +70,82 @@ export class ActivityDetailComponent implements OnInit {
   }
 
   displayTouristOptions(): void {
-    // Si hay un usuario logado y tiene el perfil de turista
-    // se muestran los botones de sign up y save favorites
     const idLoggedUser = this.userState$.user?.id;
 
-    if (
-      this.userState$.user !== null &&
-      this.userState$.user?.profile.type === userTypes.Tourist.toString()
-    ) {
-      // Se obtienen la lista de actividades favoritas del usuario de la memoria local
-      this.idActivitiesUserFavorites = this.userState$.user?.profile.favorites;
-      // Si la información de las actividades se visualiza desde la opción "My activities" (@Input() eFilterType)
-      if (this.eFilterType === FilterType.myActivitiesFilter.toString()) {
-        // Se habilita el botón de eliminar el registro a la actividad
-        this.rForm.controls.myActivityDeleteVisible.setValue(true);
-      }
-      // Si la información de las actividades se visualiza desde la opción "Favorites" (@Input() eFilterType)
-      else if (this.eFilterType === FilterType.favoritesFilter.toString()) {
-        // Se habilita el botón de eliminar la selección favorita de la actividad
-        this.rForm.controls.deleteFavoritesVisible.setValue(true);
-      }
-      // En caso de visualizarse desde la opción de actividades sin filtro
-      // si el usuario logado tiene un perfil Tourist
-      else {
-        // Se muestra el botón de sign Up y favorites en caso de que no estén cubiertas las plazas disponibles
-        // y que el usuario no esté ya apuntado en la actividad
-        if (
-          this.activity.peopleRegistered < this.activity.limitCapacity &&
-          !this.activity.signUpUsers.includes(idLoggedUser)
-        ) {
-          this.rForm.controls.myActivitySignUpVisible.setValue(true);
+    const user = this.getParsedUser();
+    const view = this.getParsedView();
+    const activity = this.getParsedActivity(idLoggedUser);
+
+    if (user && user.isTourist) {
+      this.idActivitiesUserFavorites = user.favorites;
+      const isFavorite = this.isFavorite(user.favorites);
+
+      if (view === 'myActivities') {
+        this.setButton('myActivities', 'delete');
+      } else if (view === 'favorites') {
+        this.setButton('favorites', 'delete');
+      } else {
+        if (activity.notFull && !activity.userSigned) {
+          this.setButton('myActivities', 'add');
         }
-        // Si el usuario no tiene la actividad como favorita
-        // se muestra el botón de añadir a favoritos
-        const foundIndex = this.idActivitiesUserFavorites.findIndex(
-          (x) => x === this.activity.id
-        );
-        if (foundIndex === -1) {
-          this.rForm.controls.saveFavoritesVisible.setValue(true);
+        if (!isFavorite) {
+          this.setButton('favorites', 'add');
         }
       }
+    }
+  }
+
+  getParsedUser(): any | null {
+    const isNotNull = this.userState$.user !== null;
+    if (isNotNull) {
+      return {
+        id: this.userState$.user?.id,
+        isTourist:
+          this.userState$.user?.profile.type === userTypes.Tourist.toString(),
+        favorites: this.userState$.user?.profile.favorites,
+      };
+    } else {
+      return null;
+    }
+  }
+
+  getParsedView(): string {
+    if (this.eFilterType === FilterType.myActivitiesFilter.toString()) {
+      return 'myActivities';
+    } else if (this.eFilterType === FilterType.favoritesFilter.toString()) {
+      return 'favorites';
+    }
+  }
+
+  getParsedActivity(idUser: number): any | null {
+    if (this.activity) {
+      return {
+        notFull: this.activity.peopleRegistered < this.activity.limitCapacity,
+        userSigned: this.activity.signUpUsers.includes(idUser),
+      };
+    } else {
+      return null;
+    }
+  }
+
+  setButton(view: string, action: string): void {
+    if (view === 'myActivities' && action === 'delete') {
+      this.rForm.controls.myActivityDeleteVisible.setValue(true);
+    } else if (view === 'favorites' && action === 'delete') {
+      this.rForm.controls.deleteFavoritesVisible.setValue(true);
+    } else if (view === 'myActivities' && action === 'add') {
+      this.rForm.controls.myActivitySignUpVisible.setValue(true);
+    } else if (view === 'favorites' && 'add') {
+      this.rForm.controls.saveFavoritesVisible.setValue(true);
+    }
+  }
+
+  isFavorite(activitiesId: number[]): boolean {
+    const foundIndex = activitiesId.findIndex((x) => x === this.activity.id);
+    if (foundIndex !== -1) {
+      return true;
+    } else {
+      return false;
     }
   }
 
@@ -139,13 +172,10 @@ export class ActivityDetailComponent implements OnInit {
     }
   }
 
-  // Se recoge la pulsación sobre el botón de save favorites
   onClickSaveFavorites(): void {
-    // Si no se encuentra la actividad en el array de actividades favoritas del usuario
-    const foundIndex = this.idActivitiesUserFavorites.findIndex(
-      (x) => x === this.activity.id
-    );
-    if (foundIndex === -1) {
+    const user = this.getParsedUser();
+    const isFavorite = this.isFavorite(user.favorites);
+    if (!isFavorite) {
       // Se añade la actividad en la lista de favoritos del usuario
       this.idActivitiesUserFavorites.push(this.activity.id);
       // Se guarda la información en la memoria local

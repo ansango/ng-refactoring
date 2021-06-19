@@ -1,19 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  ValidatorFn,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CheckValidator } from 'src/app/Shared/Directives/checkValidator';
 import { PublicFunctions } from 'src/app/Shared/Directives/publicFunctions';
 import { Education } from '../../models/education';
-import { educationTypes } from 'src/app/Shared/Enums/publicEnums';
 import {
   universityLevelTypes,
   cycleLevelTypes,
+  educationTypes,
 } from 'src/app/Shared/Enums/publicEnums';
 
 import { AppState } from 'src/app/app.reducers';
@@ -26,7 +20,7 @@ import * as UserAction from '../../actions';
   templateUrl: './profile-education.component.html',
   styleUrls: ['./profile-education.component.css'],
 })
-export class ProfileEducationComponent implements OnInit {
+export class ProfileEducationComponent {
   userState$: UserState;
   eEducationTypes = educationTypes;
   eLevelTypes: any;
@@ -52,8 +46,6 @@ export class ProfileEducationComponent implements OnInit {
       this.loadFormInstance();
     });
   }
-
-  ngOnInit(): void {}
 
   public loadFormInstance(): void {
     // En caso de creación de una nueva educación
@@ -99,7 +91,7 @@ export class ProfileEducationComponent implements OnInit {
   }
 
   // Se guarda un nuevo tipo de educación
-  public save(education: Education) {
+  public save(education: Education): void {
     const user = this.userState$.user;
     const _education = PublicFunctions.fakeIncreaseUid<Education>(
       user.educations,
@@ -111,7 +103,7 @@ export class ProfileEducationComponent implements OnInit {
   }
 
   // Se edita una educación
-  public update(education: Education) {
+  public update(education: Education): void {
     const user = this.userState$.user;
     const educations = user.educations;
     const foundIndex = educations.findIndex(

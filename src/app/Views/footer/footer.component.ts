@@ -3,12 +3,10 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-footer',
   templateUrl: './footer.component.html',
-  styleUrls: ['./footer.component.css']
+  styleUrls: ['./footer.component.css'],
 })
 export class FooterComponent implements OnInit {
-
   public currentYear: string;
-  constructor() { }
 
   ngOnInit(): void {
     this.getCurrentYear();
@@ -18,5 +16,4 @@ export class FooterComponent implements OnInit {
     // Se actualiza en el footer el año actual
     this.currentYear = new Date().getFullYear().toString();
   }
-
 }

@@ -1,33 +1,26 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AppState } from 'src/app/app.reducers';
 import { Store } from '@ngrx/store';
 import { LoginState } from '../../login/reducers';
 import * as LoginAction from '../../login/actions';
 import { UserState } from '../../profile/reducers';
 
-
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
-
   loginState$: LoginState;
   userState$: UserState;
 
-  constructor( private route: ActivatedRoute, public router: Router,
-               private store: Store<AppState>){}
+  constructor(public router: Router, private store: Store<AppState>) {}
 
   ngOnInit(): void {
-    this.store.select('login').subscribe(login => this.loginState$ = login);
-    this.store.select('user').subscribe(user => this.userState$ = user);
+    this.store.select('login').subscribe((login) => (this.loginState$ = login));
+    this.store.select('user').subscribe((user) => (this.userState$ = user));
   }
-
-  // Se inicializa el componente
-  init(): void {}
-
   // Se recoge la pulsación sobre el botón de logout
   onClickLogout(): void {
     // Se desloga al usuario

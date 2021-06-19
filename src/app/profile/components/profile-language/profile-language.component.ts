@@ -1,18 +1,13 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  ValidatorFn,
-  FormBuilder,
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { languageLevels } from 'src/app/Shared/Enums/publicEnums';
-import { activityLenguages } from 'src/app/Shared/Enums/publicEnums';
+import {
+  languageLevels,
+  activityLenguages,
+} from 'src/app/Shared/Enums/publicEnums';
 import { Language } from '../../models/language';
 import { CheckValidator } from 'src/app/Shared/Directives/checkValidator';
 import { PublicFunctions } from 'src/app/Shared/Directives/publicFunctions';
-
 import { AppState } from 'src/app/app.reducers';
 import { Store } from '@ngrx/store';
 import { UserState } from '../../reducers';
@@ -23,7 +18,7 @@ import * as UserAction from '../../actions';
   templateUrl: './profile-language.component.html',
   styleUrls: ['./profile-language.component.css'],
 })
-export class ProfileLanguageComponent implements OnInit {
+export class ProfileLanguageComponent {
   userState$: UserState;
   eLanguageLevels = languageLevels;
   eActivityLenguages = activityLenguages;
@@ -48,8 +43,6 @@ export class ProfileLanguageComponent implements OnInit {
       this.loadFormInstance();
     });
   }
-
-  ngOnInit(): void {}
 
   public loadFormInstance(): void {
     // En caso de creación de un nuevo lenguaje
@@ -98,24 +91,23 @@ export class ProfileLanguageComponent implements OnInit {
   }
 
   // Se actualiza el lenguaje
-  public update(language: Language) {
+  public update(language: Language): void {
     const user = this.userState$.user;
     const languages = user.languages;
     const foundIndex = languages.findIndex(
-      (_language) => _language.uid === language.uid
+      (languageEl) => languageEl.uid === language.uid
     );
     languages[foundIndex] = language;
-    // Se actualiza el usuario
+
     this.store.dispatch(UserAction.updateUserLanguage({ user }));
   }
 
-  saveOrUpdate(language: Language) {
+  saveOrUpdate(language: Language): void {
     // Se invoca la función save o update en función de la respuesta de isNew
     this.isNew() ? this.save(language) : this.update(language);
   }
 
   public isNew(): boolean {
-    // Función que devuelve true si no existe el campo uid en el objeto language
     return !!!this.language.uid;
   }
 }

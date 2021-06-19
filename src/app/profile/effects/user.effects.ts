@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { Actions, Effect, ofType, createEffect } from '@ngrx/effects';
+import { of } from 'rxjs';
+import { Actions, ofType, createEffect } from '@ngrx/effects';
 import { map, filter, catchError, mergeMap, exhaustMap } from 'rxjs/operators';
 import * as UserActions from '../actions';
 import { UserService } from '../services/user.service';
@@ -9,16 +9,15 @@ import * as LoginActions from '../../login/actions';
 
 @Injectable()
 export class UserEffects {
-
   GetLoginUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.getLoginUser, LoginActions.loginSuccess),
-      exhaustMap(({credentials}) =>
+      exhaustMap(({ credentials }) =>
         this.userService.login(credentials).pipe(
-        map((user) =>
-          UserActions.getLoginUserSuccess({ user })
-        ),
-        catchError((error) => of(UserActions.getLoginUserFailure({ payload: error })))
+          map((user) => UserActions.getLoginUserSuccess({ user })),
+          catchError((error) =>
+            of(UserActions.getLoginUserFailure({ payload: error }))
+          )
         )
       )
     )
@@ -27,12 +26,12 @@ export class UserEffects {
   updateUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.updateUser),
-      mergeMap(({user}) =>
+      mergeMap(({ user }) =>
         this.userService.updateUser(user).pipe(
-          map(() =>
-            UserActions.updateUserSuccess({ user })
-          ),
-          catchError((error) => of(UserActions.updateUserFailure({ payload: error })))
+          map(() => UserActions.updateUserSuccess({ user })),
+          catchError((error) =>
+            of(UserActions.updateUserFailure({ payload: error }))
+          )
         )
       )
     )
@@ -41,12 +40,12 @@ export class UserEffects {
   updateUserLanguage$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.updateUserLanguage),
-      mergeMap(({user}) =>
+      mergeMap(({ user }) =>
         this.userService.updateUser(user).pipe(
-          map(() =>
-            UserActions.updateUserLanguageSuccess({ user })
-          ),
-          catchError((error) => of(UserActions.updateUserLanguageFailure({ payload: error })))
+          map(() => UserActions.updateUserLanguageSuccess({ user })),
+          catchError((error) =>
+            of(UserActions.updateUserLanguageFailure({ payload: error }))
+          )
         )
       )
     )
@@ -55,12 +54,12 @@ export class UserEffects {
   deleteUserLanguage$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.deleteUserLanguage),
-      mergeMap(({user}) =>
+      mergeMap(({ user }) =>
         this.userService.updateUser(user).pipe(
-          map(() =>
-            UserActions.deleteUserLanguageSuccess({ user })
-          ),
-          catchError((error) => of(UserActions.deleteUserLanguageFailure({ payload: error })))
+          map(() => UserActions.deleteUserLanguageSuccess({ user })),
+          catchError((error) =>
+            of(UserActions.deleteUserLanguageFailure({ payload: error }))
+          )
         )
       )
     )
@@ -69,12 +68,12 @@ export class UserEffects {
   addUserLanguage$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.addUserLanguage),
-      mergeMap(({user}) =>
+      mergeMap(({ user }) =>
         this.userService.updateUser(user).pipe(
-          map(() =>
-            UserActions.addUserLanguageSuccess({ user })
-          ),
-          catchError((error) => of(UserActions.addUserLanguageFailure({ payload: error })))
+          map(() => UserActions.addUserLanguageSuccess({ user })),
+          catchError((error) =>
+            of(UserActions.addUserLanguageFailure({ payload: error }))
+          )
         )
       )
     )
@@ -83,12 +82,12 @@ export class UserEffects {
   updateUserEducation$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.updateUserEducation),
-      mergeMap(({user}) =>
+      mergeMap(({ user }) =>
         this.userService.updateUser(user).pipe(
-          map(() =>
-            UserActions.updateUserEducationSuccess({ user })
-          ),
-          catchError((error) => of(UserActions.updateUserEducationFailure({ payload: error })))
+          map(() => UserActions.updateUserEducationSuccess({ user })),
+          catchError((error) =>
+            of(UserActions.updateUserEducationFailure({ payload: error }))
+          )
         )
       )
     )
@@ -97,12 +96,12 @@ export class UserEffects {
   deleteUserEducation$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.deleteUserEducation),
-      mergeMap(({user}) =>
+      mergeMap(({ user }) =>
         this.userService.updateUser(user).pipe(
-          map(() =>
-            UserActions.deleteUserEducationSuccess({ user })
-          ),
-          catchError((error) => of(UserActions.deleteUserEducationFailure({ payload: error })))
+          map(() => UserActions.deleteUserEducationSuccess({ user })),
+          catchError((error) =>
+            of(UserActions.deleteUserEducationFailure({ payload: error }))
+          )
         )
       )
     )
@@ -111,12 +110,12 @@ export class UserEffects {
   addUserEducation$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.addUserEducation),
-      mergeMap(({user}) =>
+      mergeMap(({ user }) =>
         this.userService.updateUser(user).pipe(
-          map(() =>
-            UserActions.addUserEducationSuccess({ user })
-          ),
-          catchError((error) => of(UserActions.addUserEducationFailure({ payload: error })))
+          map(() => UserActions.addUserEducationSuccess({ user })),
+          catchError((error) =>
+            of(UserActions.addUserEducationFailure({ payload: error }))
+          )
         )
       )
     )
@@ -125,12 +124,16 @@ export class UserEffects {
   updateUserSuccess$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(UserActions.updateUserSuccess, UserActions.addUserLanguageSuccess, UserActions.updateUserLanguageSuccess,
-              UserActions.addUserEducationSuccess, UserActions.updateUserEducationSuccess),
+        ofType(
+          UserActions.updateUserSuccess,
+          UserActions.addUserLanguageSuccess,
+          UserActions.updateUserLanguageSuccess,
+          UserActions.addUserEducationSuccess,
+          UserActions.updateUserEducationSuccess
+        ),
         map(() => {
           this.redirectTo('/profile');
-        }
-      )
+        })
       ),
     { dispatch: false }
   );
@@ -138,12 +141,12 @@ export class UserEffects {
   createUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.createUser),
-      exhaustMap(({user}) =>
+      exhaustMap(({ user }) =>
         this.userService.addUser(user).pipe(
-          map((newUser) =>
-            UserActions.createUserSuccess( {user: newUser} )
-          ),
-          catchError((error) => of(UserActions.createUserFailure({ payload: error })))
+          map((newUser) => UserActions.createUserSuccess({ user: newUser })),
+          catchError((error) =>
+            of(UserActions.createUserFailure({ payload: error }))
+          )
         )
       )
     )
@@ -152,13 +155,21 @@ export class UserEffects {
   getFavoriteActivitiesUser$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.createUserSuccess, UserActions.getLoginUserSuccess),
-      mergeMap(({user}) =>
+      mergeMap(({ user }) =>
         this.userService.getUserFavoriteActivities(user.id).pipe(
-          filter (() => user.profile.type === 'Tourist' ),
+          filter(() => user.profile.type === 'Tourist'),
           map((favoriteActivitiesUser) =>
-            UserActions.getFavoriteUserActivitiesStorageSuccess({favoriteActivitiesUser})
+            UserActions.getFavoriteUserActivitiesStorageSuccess({
+              favoriteActivitiesUser,
+            })
           ),
-          catchError((error) => of(UserActions.getFavoriteUserActivitiesStorageFailure({ payload: error })))
+          catchError((error) =>
+            of(
+              UserActions.getFavoriteUserActivitiesStorageFailure({
+                payload: error,
+              })
+            )
+          )
         )
       )
     )
@@ -167,13 +178,23 @@ export class UserEffects {
   setFavoriteUserActivitiesStorage$ = createEffect(() =>
     this.actions$.pipe(
       ofType(UserActions.setFavoriteUserActivitiesStorage),
-      exhaustMap(({user, favoriteActivitiesUser}) =>
-        this.userService.setUserFavoriteActivities(favoriteActivitiesUser, user.id).pipe(
-          map(() =>
-            UserActions.setFavoriteUserActivitiesStorageSuccess({favoriteActivitiesUser})
-          ),
-          catchError((error) => of(UserActions.setFavoriteUserActivitiesStorageFailure({ payload: error })))
-        )
+      exhaustMap(({ user, favoriteActivitiesUser }) =>
+        this.userService
+          .setUserFavoriteActivities(favoriteActivitiesUser, user.id)
+          .pipe(
+            map(() =>
+              UserActions.setFavoriteUserActivitiesStorageSuccess({
+                favoriteActivitiesUser,
+              })
+            ),
+            catchError((error) =>
+              of(
+                UserActions.setFavoriteUserActivitiesStorageFailure({
+                  payload: error,
+                })
+              )
+            )
+          )
       )
     )
   );
@@ -189,10 +210,11 @@ export class UserEffects {
     private actions$: Actions,
     private userService: UserService,
     private router: Router
-) {}
+  ) {}
 
   redirectTo(uri: string): void {
-    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() =>
-    this.router.navigate([uri]));
+    this.router
+      .navigateByUrl('/', { skipLocationChange: true })
+      .then(() => this.router.navigate([uri]));
   }
 }

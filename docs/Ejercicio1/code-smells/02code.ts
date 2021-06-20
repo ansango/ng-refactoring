@@ -1,19 +1,5 @@
 /**
- * * CODE SMELL -
+ * * Duplicate Code
  */
 
-/**
- * ! PROBLEMA:
- */
-
-/**
- * ? REFACTORING
- */
-
-/**
- * * ANTES
- */
-
-/**
- * * DESPUÉS
- */
+// https://dev.to/thinkster/code-smell-duplicated-code-fc1

@@ -1,6 +1,22 @@
 /**
- * * Middle Man
+ * * Switch Statement
  */
 
+function getCar(brand) {
+  let result;
 
-// https://www.thecodebuzz.com/middle-man-code-smell-resolution-examples/
+  switch (brand) {
+    case 'Ford':
+      result = 'Ford';
+      break;
+
+    case 'Citroen':
+      result = 'Citroen';
+      break;
+
+    default:
+      result = 'No Car Selected';
+  }
+
+  return result;
+}

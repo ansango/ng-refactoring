@@ -2,4 +2,14 @@
  * * Temporary Field
  */
 
-//https://community.servicenow.com/community?id=community_article&sys_id=0b3aff7f1bead4106531ea89bd4bcbf5
+// tslint:disable-next-line: typedef
+function nameToObject(name) {
+  const fullName = name.split(' ');
+  const firstName = fullName[0];
+  const lastName = fullName[1];
+
+  return {
+    firstName: `${firstName}`,
+    lastName: `${lastName}`,
+  };
+}

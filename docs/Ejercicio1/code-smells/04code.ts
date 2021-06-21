@@ -2,4 +2,15 @@
  * * Data Clumps
  */
 
-// https://medium.com/thinkster-io/code-smell-array-data-clumps-17283d42c3d8
+/**
+ * * Before smell
+ */
+
+let a1 = [18.2, 34.2, 19, 2];
+let a2 = ['anibal', 'juan', 'maria'];
+
+/**
+ * * After Smell
+ */
+
+let a3 = ['123 Calle falsa', 'Salamanca', 'ES', '37008'];

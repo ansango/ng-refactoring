@@ -1,6 +1,6 @@
 
 // tslint:disable-next-line: typedef
-function parseNameToObject(name) {
+function nameToObject(name) {
   const fullName = name.split(' ');
   return {
     firstName: fullName[0],

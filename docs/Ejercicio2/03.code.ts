@@ -1,13 +1,13 @@
-type Mahasiswa1 = {
+type Student2 = {
   id: number;
   name: string;
   semester: number;
 };
 
-let Collection1: Array<Mahasiswa1>;
+let Collection1: Array<Student2>;
 
-class Model1 {
-  public insertOne(data: Mahasiswa1): boolean {
+class Model2 {
+  public insertOne(data: Student2): boolean {
     try {
       Collection.push(data);
       return true;

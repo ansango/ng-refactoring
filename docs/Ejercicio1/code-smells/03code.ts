@@ -2,16 +2,16 @@
  * * Middle Man
  */
 
-type Mahasiswa = {
+type Student = {
   id: number;
   name: string;
   semester: number;
 };
 
-let Collection: Array<Mahasiswa>;
+let Collection: Array<Student>;
 
 class Model {
-  public insertOne(data: Mahasiswa): boolean {
+  public insertOne(data: Student): boolean {
     try {
       Collection.push(data);
       return true;
@@ -24,7 +24,7 @@ class Model {
 class Controller {
   saveOne(id: number, name: string, semester: number) {
     const model = new Model();
-    const tmp: Mahasiswa = {
+    const tmp: Student = {
       id,
       name,
       semester,

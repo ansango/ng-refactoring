@@ -2,7 +2,7 @@
  * * Long Method
  */
 
-const dirtyComputePrice = (): number => {
+const ComputePrice = (): number => {
   const items = Array(10)
     .fill(0)
     .map(() => ({ price: Math.random() * 10 }));

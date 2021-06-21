@@ -1,23 +1,18 @@
-function Ford() {
-  return { doSomething: doSomething, type: 'SomeCar' };
+type Mahasiswa1 = {
+  id: number;
+  name: string;
+  semester: number;
+};
 
-  function doSomething() {
-    gs.debug('I am a Ford');
-  }
-}
+let Collection1: Array<Mahasiswa1>;
 
-function Chevrolet() {
-  return { doSomething: doSomething, type: 'SomeCar' };
-
-  function doSomething() {
-    gs.debug('I am a Chevy');
-  }
-}
-
-function GMC() {
-  return { doSomething: doSomething, type: 'SomeCar' };
-
-  function doSomething() {
-    gs.debug('I am a GMC');
+class Model1 {
+  public insertOne(data: Mahasiswa1): boolean {
+    try {
+      Collection.push(data);
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
 }

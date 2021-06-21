@@ -1,22 +1,34 @@
 /**
- * * Switch Statement
+ * * Middle Man
  */
 
-function getCar(brand) {
-  let result;
+type Mahasiswa = {
+  id: number;
+  name: string;
+  semester: number;
+};
 
-  switch (brand) {
-    case 'Ford':
-      result = 'Ford';
-      break;
+let Collection: Array<Mahasiswa>;
 
-    case 'Citroen':
-      result = 'Citroen';
-      break;
-
-    default:
-      result = 'No Car Selected';
+class Model {
+  public insertOne(data: Mahasiswa): boolean {
+    try {
+      Collection.push(data);
+      return true;
+    } catch (error) {
+      return false;
+    }
   }
+}
 
-  return result;
+class Controller {
+  saveOne(id: number, name: string, semester: number) {
+    const model = new Model();
+    const tmp: Mahasiswa = {
+      id,
+      name,
+      semester,
+    };
+    model.insertOne(tmp);
+  }
 }
